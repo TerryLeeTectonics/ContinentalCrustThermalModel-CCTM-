@@ -1,0 +1,48 @@
+# Thermal model (v1.0) configuration file
+# Default parameters provided below follow the preferred case-study of western US described in Lee et al.
+# Do not change the variable name (e.g., 'lat_max'), only modify variable content based on your needs (e.g., 42)
+
+[GeographicBoundary]
+lat_max = 42                          # North (maximum latitude) [float]
+lat_min = 32                          # South (minimum latitude) [float]
+lon_max = -114                        # East (maximum longitude) [float]
+lon_min = -125                        # West (minimum longitude) [float]
+maximum_pixel_size = 50000            # The model will use this pixel size as the parent pixel size unless it's specified with fixed pixel or not running D95 [float]
+
+[ConstraintSelection]
+Run_D95 = True                  # Determine to run D95 or not; Yes = True; No = False [boolean]
+Run_Curie = False               # Determine to use Curie depth datasets or not; Yes = True; No = False [boolean]
+Run_Moho = True                 # Determine to use Moho datasets or not; Yes = True; No = False [boolean]
+Run_LAB = False                 # Determine to use LAB datasets or not; Yes = True; No = False [boolean]
+
+[D95]                        							  
+fname_EQ_catalog = Temperature_proxies/EQ_catalog_WUS.csv                          # File name to earthquake catalog [string]
+min_EQ_cutoff = 30                                                                 # Minimum number of earthquake per pixel [integer]                                               
+quadtree = True                                                                    # If you want quadtree binning for D95, Yes = True; No = False [boolean]
+fixed_pixel_size = 22500                                                           # If doesn't quadtree, the model will use this fixed pixel size [float]
+
+[InputData]
+fname_heatflow = Temperature_proxies/heat_flow.tif                                 # File name to heat flow data [string]
+fname_Curie =                                                                      # File name to Curie depth data [string]
+fname_MohoT = Temperature_proxies/Moho_T.tif                                       # File name to Moho temperature data [string]
+fname_MohoT_uncer = Temperature_proxies/Moho_T_Uncer.tif                           # File name to Moho temperature uncertainty data [string]
+fname_Mohoz = Temperature_proxies/Moho_depth.tif                                   # File name to crustal thickness data [string]
+fname_LAB =                                                                        # File name to LAB depth data [string]
+
+[ModelParameters]
+Curie_z_uncer = 5                # Curie depth uncertainty [float]
+Curie_depth_T = 550              # Curie depth temperature [float]
+Curie_T_uncer = 50               # Curie depth temperature uncertainty [float]
+Iteration = 100000               # Iteration number of thermal profile calculation per pixel [integer]
+T0_range = 0, 20                 # Range of surface temperature; minimal and maxima; °C [array]
+k_range = 2, 5                   # Range of thermal conductivity; minimal and maxima; W/m/°C [array]
+H0_range = 1e-6, 1e-5            # Range of surface radiogenic heat production; minimal and maxima; W/m^3 [array]
+qm_range = 0.001, 0.05           # Range of mantle heat flow; minimal and maxima; W/m^2 [array]
+goodfit = 0.35                   # NRMSE coefficient cutoff for good-fit result [float]
+moderatefit = 0.55               # NRMSE coefficient cutoff for moderate-fit result [float]
+D95_T_config = 350               # Temperature at D95 depth; °C [float]
+Max_goodfit_profile = 200        # Maximum good-fit thermal profiles per pixel [integer]
+LAB_T_config = 1300              # Temperature at LAB; °C [float]
+Uncertainty_box_fitting = False  # Filter the simulated thermal profiles using the temperature-depth uncertainty from the constraint; Yes = True; No = False [boolean]
+Diffusion_2D = True              # Conduct 2D lateral heat diffusion at each depth slice; Yes = True; No = False [boolean]
+Diffusion_time = 5               # Total lateral heat diffusion time; Myr [float]
